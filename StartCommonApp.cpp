@@ -56,6 +56,31 @@ void start_NerveMain()
         });
 }
 
+void start_TradeMain()
+{
+    createprocess(TEXT("D:\\TradeView\\TradeMain.exe"), []()
+    {
+        HWND hwnd = FindWindow(NULL, TEXT("第一创业独立交易－条件下单版V1.0"));
+        while (!hwnd) { hwnd = FindWindow(NULL, TEXT("第一创业独立交易－条件下单版V1.0")); }
+        SetForegroundWindow(hwnd);
+        char Username[] = { "35002805" };
+        char Password[] = { "123123" };
+        char VerificationCode[] = { "1111" };
+        keybd_event(VK_TAB, 0, KEYEVENTF_EXTENDEDKEY, 0);
+        keybd_event(VK_TAB, 0, KEYEVENTF_KEYUP, 0);
+        //input_char(Username);
+        keybd_event(VK_TAB, 0, KEYEVENTF_EXTENDEDKEY, 0);
+        keybd_event(VK_TAB, 0, KEYEVENTF_KEYUP, 0);
+        input_char(Password);
+        Sleep(500);
+        keybd_event(VK_TAB, 0, KEYEVENTF_EXTENDEDKEY, 0);
+        keybd_event(VK_TAB, 0, KEYEVENTF_KEYUP, 0);
+        input_char(VerificationCode);
+        keybd_event(VK_RETURN, 0, KEYEVENTF_EXTENDEDKEY, 0);
+        keybd_event(VK_RETURN, 0, KEYEVENTF_KEYUP, 0);
+    });
+}
+
 void start_WavMain()
 {
     createprocess(TEXT("D:\\Compass\\WavMain\\WavMain.exe"), []()
@@ -107,7 +132,24 @@ void start_VS()
     //system("\"C:\\Program Files (x86)\\Microsoft Visual Studio\\Common\\MSDev98\\Bin\\MSDEV.EXE\""); 
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    start_NerveMain();
+    if (argc<=1)
+    {
+        return 0;
+    }
+
+    switch (*argv[1])
+    {
+    case 'T':
+        start_TradeMain(); 
+        break;
+    case 'N':
+        start_NerveMain();
+        break;
+    default:
+        break;
+    }
+
+    return 0;
 }
